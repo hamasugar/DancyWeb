@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>成功</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" type="text/css" href="hosting.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+</head>
+<body>
+<h1 id="h1">hosting succeed</h1>
+<img border="0"  width="auto" height="128" id="img1">
+<img border="0"  width="auto" height="128" id="img2" src="https://3l3lsb42w0.execute-api.us-east-2.amazonaws.com/dev/getimage">
+<h2 id="h2">hosting</h2>
+<video src="video.ogv" controls="" width="240" height="180" autoplay muted loop>非対応</video>
+<a href="next.html">リンク</a>
+
+
+<div id="app">
+    <input type="text" v-model="name">
+    <div>Hello {{name}}！</div>
+</div>
+
+<div id="my_app">
+  <p>
+    New task:
+    <input type="text"  v-model="newtask">
+    <input type="text"  v-model="newtask">
+    <button v-on:click="addTask()">追加</button>
+    <button v-on:click="change()">変更</button>
+  </p>
+  <hr>
+  <ul>
+
+    <li v-for="(todo,i) in todos">
+      <input type="checkbox" v-model="todo.isCompleted">
+      <span v-bind:class="{'complete': todo.isCompleted}">{{i}}{{todo.task}}</span>
+      <button @click="deleteTodo(todo)">消去</button>
+    </li>
+  </ul>
+  <p>Remaining Tasks {{remains}}/{{todos.length}}</p>
+
+  <svg  v-if="seen"　height="60" width="200">
+      <rect x="5" y="5" rx="20" ry="20" width="150" height="50" style="fill:red;stroke:black;stroke-width:5;opacity:0.6" />
+      <text x="35" y="37" >{{newtask}}</text>
+  </svg>
+
+  <div>
+    <span v-for="n in 10">{{ n+1 }} </span>
+  </div>
+
+
+  <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+  <label for="jack">Jack</label>
+  <input type="checkbox" id="john" value="John" v-model="checkedNames">
+  <label for="john">John</label>
+  <span>Checked names: {{ checkedNames }}</span>
+  <input type="color">
+  <input type="checkbox" v-model="approve" @change="approve = true">
+  承認
+  </input>
+
+</div>
+
+<input type="text" id="input"></div>
+<p id="output">
+  <div style="background-color: red; height: 100px;width: 100px"></div>
+  <div style="background-color: blue; height: 100px;width: 100px"></div>
+</p>
+
+<div class="flexbox">
+</div>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.22/vue.min.js'></script>
+<script type="text/javascript">
+
+var vue_example = new Vue({
+  el: '#app',
+  data: {
+    name: 'world'
+  },
+});
+
+new Vue({
+  el: '#my_app',
+  data: {
+    todos:[{task: "牛乳を買う", isCompleted: false}],
+    newtask: '',
+    seen: true,
+    checkedNames: [],
+    approve: false,
+  },
+  methods: {
+    addTask: function() {
+      if (this.newtask == '') {
+        return;
+      }
+      this.todos.push({
+        task: this.newtask,
+        isCompleted: false
+      });
+      this.newtask = '';
+      this.seen = false
+    },
+    deleteTodo: function(todo) {
+      // this.todos.$remove(todo);
+      var index = this.todos.indexOf(todo)
+      this.todos.splice(index, 1)
+    },
+    change: function() {
+      // this.todos[1] = {task: "ああああああああ", isCompleted: false};
+      // Vue.set(this.todos, 1, "い");
+      this.todos.splice(1,1,{task: "bbbb", isCompleted: false});
+
+    }
+  },
+  computed: {
+    remains: function() {
+      var count = 0
+      for(var i=0; i<this.todos.length; i++) {
+        if(!this.todos[i].isCompleted) {
+          count++;
+        }
+      }
+      return count
+    }
+  }
+});
+
+  $(function() {
+
+    $("#h2").click(function(){
+    $(this).text("jqueryに成功");
+  })
+
+  var $input = $('#input');
+  var $output = $('#output');
+$input.on('input', function(event) {
+  var value = $input.val();
+  $output.text(value);
+});
+
+
+  });
+
+document.getElementById("h1").onclick = function() {
+    console.log("click");
+
+    var request = new XMLHttpRequest();
+    request.open('GET',"https://3l3lsb42w0.execute-api.us-east-2.amazonaws.com/dev/teachershosting");
+    request.responseType = 'json';
+    request.onload = function () {
+      var data = this.response;
+      const teacherArray = document.querySelectorAll(".teacher");
+      console.log(data);
+      const count = data["Count"];
+      
+      for(var i=0; i<count; i++) {
+        var teacher = document.createElement("div");
+        teacher.setAttribute("class","teacher");
+        var teacherImage = document.createElement("img");
+        teacherImage.setAttribute("class","teacher__img");
+        var src = "https://3l3lsb42w0.execute-api.us-east-2.amazonaws.com/dev/getimage?email=" + data["Items"][i]["email"] + ".jpg"
+        teacherImage.setAttribute("src", src);
+        teacher.appendChild(teacherImage)
+        var teacherP = document.createElement("p");
+        if (data["Items"][i]["nickName"]) {
+          teacherP.innerText = data["Items"][i]["nickName"] + "先生"
+        }
+        else {
+          teacherP.innerText = "ゲスト講師"
+        }
+        teacher.appendChild(teacherP)
+        document.querySelector(".flexbox").appendChild(teacher)
+      }
+
+    };
+    
+    request.send();
+
+    // var request = new XMLHttpRequest();
+    // request.open('GET',"https://3l3lsb42w0.execute-api.us-east-2.amazonaws.com/dev/getimage");
+    // request.responseType = 'arraybuffer';
+    // request.onload = function () {
+    //   var data = this.response;
+    //   var bytes = new Uint8Array(data);
+    //   var binaryData = "";
+    //   for (var i = 0, len = bytes.byteLength; i < len; i++) {
+    //     binaryData += String.fromCharCode(bytes[i]);
+    //   }
+    //   console.log(window.btoa(binaryData));
+    //   var img = document.getElementById("img1");
+    //   img.src = "data:image/jpeg;base64," + window.btoa(binaryData);
+    // };
+
+    // request.send();
+
+
+  };
+</script>
+</body>
+</html>
