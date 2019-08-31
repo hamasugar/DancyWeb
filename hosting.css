@@ -1,3 +1,8 @@
+body {
+  width: 90%;
+  margin: 0 auto;
+}
+
 h1 {
   color: red;
 }
@@ -18,26 +23,79 @@ ul > li > .complete {
 }
 
 .teacher {
-  background-color: rgba(255, 166, 0, 0.055);
-  width: 17vw;
-  height: 30vw;
+  background-color: rgba(211, 206, 197, 0.171);
+  width: 17%;
+  height: 27vw;
   margin-bottom: 30px;
-  border: 2px solid black;
-  border-radius: 30px
+  border: 1px solid black;
+  border-radius: 20px;
+}
+
+.teacher:hover {
+  background-color: rgba(255, 136, 0, 0.658);
 }
 
 .teacher__img {
   width: 100%;
   height: 17vw;
-  border-radius: 30px 30px 0 0;
+  border-radius: 20px 20px 0 0;
   object-fit: cover;
 }
 
-.teacher p {
+.teacher .teacher__name {
   font-weight: bold;
   margin-left: 2vw;
-  font-size: 2vw;
+  font-size: 1.5vw;
 }
+
+.teacher .teacher__info {
+  margin-left: 2vw;
+  font-size: 1vw;
+}
+
+.teacherLabel {
+  width: 100vw;
+  background-color: rgba(255, 136, 0, 0.8);
+  height: 80px;
+  color: white;
+  font-weight: bold;
+  font-size: 2vw;
+  text-align: center;
+  margin-left: -5vw;
+  line-height: 80px;
+}
+
+.triangle{
+  width: 0;
+  height: 0;
+  margin: 0 auto;
+  border-top: 40px solid rgba(255, 136, 0, 0.8);
+  border-right: 40px solid transparent;
+  border-left: 40px solid transparent;
+}
+
+.buttons {
+  display: flex;
+  margin: 0 auto;
+  width: 50%;
+  height: 30px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+}
+
+.buttons a {
+  display: block;
+  width: 30px;
+  height: 30px;
+  background-color: rgba(255, 136, 0, 0.8);
+  border-radius: 2px;
+  font-size: 0.8vw;
+  color: white;
+  line-height: 30px; 
+  text-align: center;
+}
+
 
 .flexbox {
   width: 100%;
@@ -45,4 +103,15 @@ ul > li > .complete {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+@media all and (max-width: 700px) {
+  .teacher {
+    width: 45%;
+    height: 65vw;
+  }
+
+  .teacher__img {
+    height: 40vw;
+  }
 }
