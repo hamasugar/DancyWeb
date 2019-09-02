@@ -11,11 +11,6 @@
 
 <video src="video.ogv" controls="" width="240" height="180" autoplay muted loop>非対応</video>
 
-<div id="app">
-    <input type="text" v-model="name">
-    <div>Hello {{name}}！</div>
-</div>
-
 <div id="my_app">
   <p>
     New task:
@@ -40,11 +35,6 @@
       <text x="35" y="37" >{{newtask}}</text>
   </svg>
 
-  
-  <span v-for="n in 10">{{ n+1 }} </span>
- 
-
-
   <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
   <label for="jack">Jack</label>
   <input type="checkbox" id="john" value="John" v-model="checkedNames">
@@ -55,25 +45,23 @@
   承認
   </input>
 
-
-<input type="text" id="input">
-<p id="output"></p>
-
-
 <div class="teacherLabel">講師一覧</div>
 <div class="triangle"></div>
-<div class="buttons">
-  <a v-on:click = "changeTeacher(1)">1</a>
-  <a v-on:click = "changeTeacher(2)">2</a>
-  <a v-on:click = "changeTeacher(3)">3</a>
-  <a v-on:click = "changeTeacher(4)">4</a>
-  <a v-on:click = "changeTeacher(5)">5</a>
+<div class="buttons" >
+  <a  v-for="j in 100" v-on:click = "changeTeacher(j-1)" v-if="data['Items'][j*10 -10]">{{j}}</a>
 </div>
 
 <div class="flexbox">
+  <div class="teacher" v-for="value in data['Items'].slice(teacherNumber * 10, Math.min(teacherNumber * 10 + 10, count))" >
+    <img v-bind:src="imgSrc(value['email'])" class="teacher__img">
+    <!-- <img src="" class="teacher__img"> -->
+    <p class="teacher__name">{{ value["nickName"] ? value["nickName"] + "先生" : "ゲスト講師"}}</p>
+    <p class="teacher__info">{{ "得意ジャンル:" + value["able"] }}</p>
+    <p class="teacher__info">{{ value["money"] + "円/時" }}</p>
+    <p class="teacher__info">{{ "教える地域: " + value["live"] }}</p>
+
+  </div>
 </div>
-<p>{{ teacherNumber }}</p>
-<h1 id="h1">続きを見る</h1>
 
 </div>
 
@@ -81,14 +69,7 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.22/vue.min.js'></script>
 <script type="text/javascript">
 
-var vue_example = new Vue({
-  el: '#app',
-  data: {
-    name: 'world'
-  },
-});
-
-new Vue({
+var myApp = new Vue({
   el: '#my_app',
   data: {
     todos:[{task: "牛乳を買う", isCompleted: false}],
@@ -96,7 +77,9 @@ new Vue({
     seen: true,
     checkedNames: [],
     approve: false,
-    teacherNumber: 0
+    teacherNumber: 0,
+    data: [],
+    count: 0
   },
   methods: {
     addTask: function() {
@@ -122,8 +105,26 @@ new Vue({
 
     },
     changeTeacher: function(i) {
+      // document.querySelectorAll(".teacher__img")[0].setAttribute('src', 'sample.png');
+      //先に画像を入れ替えようとしてもそもそもsrcの反応が早すぎて画像が入れ替わらない問題が起きている
       this.teacherNumber = i;
-    }
+    },
+    imgSrc: function(email) {
+      return "https://3l3lsb42w0.execute-api.us-east-2.amazonaws.com/dev/getimage?email=" + email + ".jpg";
+    },
+    window:onload = function() {
+
+        var request = new XMLHttpRequest();
+        request.open('GET',"https://3l3lsb42w0.execute-api.us-east-2.amazonaws.com/dev/teachershosting");
+        request.responseType = 'json';
+        request.onload = function () {
+          myApp.data = this.response;
+          myApp.count = this.response["Count"];
+        };
+        request.send();
+        
+    },
+    
   },
   computed: {
     remains: function() {
@@ -138,103 +139,7 @@ new Vue({
   }
 });
 
-  $(function() {
-    $("#h2").click(function(){
-    $(this).text("jqueryに成功");
-  })
-
-  var $input = $('#input');
-  var $output = $('#output');
-$input.on('input', function(event) {
-  var value = $input.val();
-  $output.text(value);
-});
-
-
-  });
-
-var loadNumber = 0;
-var data;
-document.getElementById("h1").onclick = function() {
-    console.log("click");
-
-    var request = new XMLHttpRequest();
-    request.open('GET',"https://3l3lsb42w0.execute-api.us-east-2.amazonaws.com/dev/teachershosting");
-    request.responseType = 'json';
-    request.onload = function () {
-      data = this.response;
-      const teacherArray = document.querySelectorAll(".teacher");
-      console.log(data);
-      const count = data["Count"];
-      addImage(data);
-    };
-    
-    if (loadNumber == 0) {
-      request.send();
-    }
-    else {
-      //限界まで読み取ったかを判定する仕組みが欲しいな　
-      addImage(data);
-    }
-    
-    
-
-    // var request = new XMLHttpRequest();
-    // request.open('GET',"https://3l3lsb42w0.execute-api.us-east-2.amazonaws.com/dev/getimage");
-    // request.responseType = 'arraybuffer';
-    // request.onload = function () {
-    //   var data = this.response;
-    //   var bytes = new Uint8Array(data);
-    //   var binaryData = "";
-    //   for (var i = 0, len = bytes.byteLength; i < len; i++) {
-    //     binaryData += String.fromCharCode(bytes[i]);
-    //   }
-    //   console.log(window.btoa(binaryData));
-    //   var img = document.getElementById("img1");
-    //   img.src = "data:image/jpeg;base64," + window.btoa(binaryData);
-    // };
-
-    // request.send();
-    //12345678910みたいな感じで切り替えさせるのが一番無難でVueも使える方法だと思う
-
-  };
-
-  function addImage(data) {
-    console.log()
-    for(var i=loadNumber * 10; i<loadNumber * 10 + 10; i++) {
-        console.log(teacherNumber);
-        if (!data["Items"][i]) {
-          console.log("none");
-          document.getElementById("h1").style.display = "none";
-          break;
-        }
-          
-
-        var teacher = document.createElement("div");
-        teacher.setAttribute("class","teacher");
-        var teacherImage = document.createElement("img");
-        teacherImage.setAttribute("class","teacher__img");
-
-        var src = "https://3l3lsb42w0.execute-api.us-east-2.amazonaws.com/dev/getimage?email=" + data["Items"][i]["email"] + ".jpg"
-        teacherImage.setAttribute("src", src);
-        teacher.appendChild(teacherImage)
-        var teacherN = document.createElement("p");
-        var teacherI = document.createElement("p");
-        teacherN.setAttribute("class", "teacher__name");
-        teacherI.setAttribute("class", "teacher__info");
-        if (data["Items"][i]["nickName"]) {
-          teacherN.innerText = data["Items"][i]["nickName"] + "先生"
-        }
-        else {
-          teacherN.innerText = "ゲスト講師"
-        }
-        teacherI.innerText = data["Items"][i]["able"] + data["Items"][i]["money"] + data["Items"][i]["live"];
-        teacher.appendChild(teacherN);
-        teacher.appendChild(teacherI);
-        document.querySelector(".flexbox").appendChild(teacher)
-      }
-      loadNumber+=1
-  }
+  
 </script>
 </body>
 </html>
