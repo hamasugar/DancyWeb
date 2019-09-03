@@ -9,41 +9,10 @@
 </head>
 <body>
 
-<video src="video.ogv" controls="" width="240" height="180" autoplay muted loop>非対応</video>
+<!-- <video src="video.ogv" controls="" width="240" height="180" autoplay muted loop>非対応</video> -->
 
-<div id="my_app">
-  <p>
-    New task:
-    <input type="text"  v-model="newtask">
-    <input type="text"  v-model="newtask">
-    <button v-on:click="addTask()">追加</button>
-    <button v-on:click="change()">変更</button>
-  </p>
-  <hr>
-  <ul>
-
-    <li v-for="(todo,i) in todos">
-      <input type="checkbox" v-model="todo.isCompleted">
-      <span v-bind:class="{'complete': todo.isCompleted}">{{i}}{{todo.task}}</span>
-      <button @click="deleteTodo(todo)">消去</button>
-    </li>
-  </ul>
-  <p>Remaining Tasks {{remains}}/{{todos.length}}</p>
-
-  <svg  v-if="seen"　height="60" width="200">
-      <rect x="5" y="5" rx="20" ry="20" width="150" height="50" style="fill:red;stroke:black;stroke-width:5;opacity:0.6" />
-      <text x="35" y="37" >{{newtask}}</text>
-  </svg>
-
-  <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
-  <label for="jack">Jack</label>
-  <input type="checkbox" id="john" value="John" v-model="checkedNames">
-  <label for="john">John</label>
-  <span>Checked names: {{ checkedNames }}</span>
-  <input type="color">
-  <input type="checkbox" v-model="approve" @change="approve = true">
-  承認
-  </input>
+<div id="my_app" v-if="isFirstPage">
+  
 
 <div class="teacherLabel">講師一覧</div>
 <div class="triangle"></div>
@@ -52,14 +21,13 @@
 </div>
 
 <div class="flexbox">
-  <div class="teacher" v-for="value in data['Items'].slice(teacherNumber * 10, Math.min(teacherNumber * 10 + 10, count))" >
+  <div class="teacher" v-for="value in data['Items'].slice(teacherNumber * 10, Math.min(teacherNumber * 10 + 10, count))" v-on:click="secondPage">
     <img v-bind:src="imgSrc(value['email'])" class="teacher__img">
     <!-- <img src="" class="teacher__img"> -->
     <p class="teacher__name">{{ value["nickName"] ? value["nickName"] + "先生" : "ゲスト講師"}}</p>
     <p class="teacher__info">{{ "得意ジャンル:" + value["able"] }}</p>
     <p class="teacher__info">{{ value["money"] + "円/時" }}</p>
     <p class="teacher__info">{{ "教える地域: " + value["live"] }}</p>
-
   </div>
 </div>
 
@@ -72,45 +40,34 @@
 var myApp = new Vue({
   el: '#my_app',
   data: {
-    todos:[{task: "牛乳を買う", isCompleted: false}],
-    newtask: '',
-    seen: true,
-    checkedNames: [],
-    approve: false,
     teacherNumber: 0,
     data: [],
-    count: 0
+    count: 0,
+    isFirstPage: true,
+    noImage: false
   },
   methods: {
-    addTask: function() {
-      if (this.newtask == '') {
-        return;
-      }
-      this.todos.push({
-        task: this.newtask,
-        isCompleted: false
-      });
-      this.newtask = '';
-      this.seen = false
-    },
-    deleteTodo: function(todo) {
-      // this.todos.$remove(todo);
-      var index = this.todos.indexOf(todo)
-      this.todos.splice(index, 1)
-    },
-    change: function() {
-      // this.todos[1] = {task: "ああああああああ", isCompleted: false};
-      // Vue.set(this.todos, 1, "い");
-      this.todos.splice(1,1,{task: "bbbb", isCompleted: false});
-
-    },
     changeTeacher: function(i) {
       // document.querySelectorAll(".teacher__img")[0].setAttribute('src', 'sample.png');
-      //先に画像を入れ替えようとしてもそもそもsrcの反応が早すぎて画像が入れ替わらない問題が起きている
+      //先に画像を入れ替えようとしてもそもそもsrcの反応が早すぎて画像が入れ替わらない問題が起きている;
+      // DOM操作だからうまく行かないのだ　あくまで-1を作るとかね あくまで監視をうまく使うしかないか
+      this.noImage = true;
       this.teacherNumber = i;
+      // このやり方はすでに画像を読み込み済みの時はうまく行く　はじめての時はうまく行かないぞ
+      //0.2秒くらいがちょうどいいかなって感じ　そうするとnoImageがうまくいく
+      setTimeout(this.falseImage, 200);
+    },
+    falseImage: function() {
+      this.noImage = false;
     },
     imgSrc: function(email) {
-      return "https://3l3lsb42w0.execute-api.us-east-2.amazonaws.com/dev/getimage?email=" + email + ".jpg";
+      if (this.noImage) {
+        return "sample.png"
+      }
+      else {
+        return "https://3l3lsb42w0.execute-api.us-east-2.amazonaws.com/dev/getimage?email=" + email + ".jpg";
+
+      }
     },
     window:onload = function() {
 
@@ -124,18 +81,13 @@ var myApp = new Vue({
         request.send();
         
     },
+    secondPage: function() {
+      this.isFirstPage = false
+    }
     
   },
   computed: {
-    remains: function() {
-      var count = 0
-      for(var i=0; i<this.todos.length; i++) {
-        if(!this.todos[i].isCompleted) {
-          count++;
-        }
-      }
-      return count
-    }
+    
   }
 });
 
