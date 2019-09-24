@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>トークのためのflex</title>
+</head>
+<body>
+        <nav class="leftnavi">
+            <div class="leftnavi__label">Dancy</div>
+            <div class="leftnavi__button">講師一覧</div>
+            <div class="leftnavi__button">問い合わせ</div>
+            <div class="leftnavi__button">トーク</div>
+            <div class="leftnavi__button">マイプロフィール</div>
+            <div class="leftnavi__button">レッスン一覧</div>
+            <div class="leftnavi__button">プロフィール編集</div>
+            <div class="leftnavi__button">ログアウト</div>
+        </nav>
+        <div class="section1">
+                <div class="section1__item"><p>トーク一覧</p></div>
+                <div class="section1__item">
+                    <div class="itemImage">
+                    <img class="itemImage__face" src="sample.jpg" alt="講師画像">
+                    </div>
+                    <div class="itemText">
+                        <p class="itemText__name">優奈先生</p>
+                        <p class="itemText__message">こんにちは　よろしくお願いしますうううううううううううううううううううううううううううううううううううううううううううううううううううううううううううううううううううううう
+                        </p>
+                    </div>      
+                    
+                </div>
+                <div class="section1__item">
+                        <div class="itemImage">
+                        <img class="itemImage__face" src="sample.jpg" alt="講師画像">
+                        </div>
+                        <div class="itemText">
+                            <p class="itemText__name">優奈先生</p>
+                            <p class="itemText__message">こんにちは　よろしくお願いします
+                            </p>
+                        </div>      
+                </div>
+                <div class="section1__item"><p>Aさん</p></div>
+                <div class="section1__item"><p>Aさん</p></div>
+                <div class="section1__item"><p>Aさん</p></div>
+                <div class="section1__item"><p>Aさん</p></div>
+                <div class="section1__item"><p>Aさん</p></div>
+                <div class="section1__item"><p>Aさん</p></div>
+                <div class="section1__item"><p>Aさん</p></div>
+        </div>
+        <div class="section2">
+            <div class="mymessage">
+                <p class="mymessage__text">あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</p>
+                <p class="mymessage__time">9月22日 13:00</p>
+            </div>
+            <div class="yourmessage">
+                    <p class="yourmessage__text">あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</p>
+                    <p class="yourmessage__time">9月22日 13:00</p>
+            </div>
+            <div class="yourmessage">
+                    <p class="yourmessage__text">ああ</p>
+                    <p class="yourmessage__time">9月22日 13:00</p>
+            </div>
+            <div class="mymessage">
+                    <p class="mymessage__text">ああ</p>
+                    <p class="mymessage__time">9月22日 13:00</p>
+            </div>
+            <div class="mymessage">
+                <p class="mymessage__text">あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</p>
+                <p class="mymessage__time">9月22日 13:00</span>
+            </div>
+            <div class="yourmessage">
+                <p class="yourmessage__text">あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</p>
+                <p class="yourmessage__time">9月22日 13:00</span>
+            </div>
+            <div class="mymessage">
+                <p class="mymessage__text">あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</p>
+                <p class="mymessage__time">9月22日 13:00</span>
+            </div>
+            <div class="yourmessage">
+                    <p class="yourmessage__text">あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</p>
+                    <p class="yourmessage__time">9月22日 13:00</span>
+            </div>
+            <div class="yourmessage">
+                <p class="yourmessage__text">あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ</p>
+                <p class="yourmessage__time">9月22日 13:00</span>
+            </div>
+            
+        </div>
+   
+
+    
+</body>
+</html>
+
+<style>
+    body {
+        font-size: 0;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .leftnavi {
+        width: 200px;
+        background-color: orange;
+        display: inline-block;
+        vertical-align: top;
+        height: 100vh;
+    }
+
+    .leftnavi__button {
+        width: 190px;
+        font-size: 16px;
+        line-height: 40px;
+        height: 40px;
+        padding-left: 10px;
+        margin-top: 10px;   
+    }
+
+    .leftnavi__label {
+        width: 190px;
+        font-size: 30px;
+        height: 40px;
+        padding-left: 10px;
+        margin-top: 10px; 
+        color: white;
+        font-weight: bold; 
+    }
+
+    .leftnavi__button:hover{
+        background-color: darkorange;
+        font-weight: bold
+    }
+
+    .section1 {
+        display: inline-block;
+        width: 300px;
+        height: 100vh;
+        background-color: white;
+        overflow-y: scroll;
+    }
+
+    .section2 {
+        width: calc(100% - 500px);
+        display: inline-block;
+        height: 100vh;
+        background-color: lightcyan;
+        overflow-y: scroll;
+    }
+
+    .section1__item {  
+        height: 100px;
+        width: 100%;
+        margin: 0px auto;
+        background-color: rgba(1, 1, 1, 0.05);;
+        border-bottom: 1px black solid;
+    }
+
+    .section1__item:hover {
+        background-color: white;
+    }
+
+    .itemImage {
+        display: inline-block;
+        width: 30%;
+        height: 100%;
+        position: relative;
+    }
+
+    .itemText {
+        display: inline-block;
+        width: 65%;
+        height: 100%;
+        vertical-align: top;
+        overflow: hidden;
+    }
+
+    .itemText__name {
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+
+    .itemText__message {
+        font-size: 12px;
+        margin-top: 2px;
+        margin-left: 10px;
+        line-height: 1.5;
+        height: 4.5em;
+        overflow: hidden;
+    }
+
+    .itemImage__face {
+        width: 80px;
+        height: 80px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .section2__item {
+        min-height: 100px;
+        height: auto;
+        width: 100%;
+        margin: 0px auto;
+        background-color: rgba(1, 1, 1, 0.1);;
+        border-bottom: 1px black solid;
+
+    }
+
+    p {
+        font-size: 22px;
+        margin: 0;
+    }
+
+    .yourmessage {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: auto;
+        margin-top: 20px;
+        align-items: flex-end;
+    }
+
+    .mymessage {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        width: 100%;
+        height: auto;
+        margin-top: 20px;
+        align-items: flex-end;
+    }
+
+    .mymessage__text {
+        font-size: 16px;
+        padding: 10px; 
+        max-width: 70%;
+        width: auto;
+        border-radius: 10px;
+        background-color: lightgreen;
+    }
+
+    .yourmessage__text {
+        font-size: 16px;
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 70%;
+        width: auto;
+        margin-left: 20px;
+        background-color: white;
+    }
+
+    .yourmessage__time {
+        font-size: 5px;
+        width: auto;
+        margin-left: 5px;
+    }
+
+    .mymessage__time {
+        font-size: 5px;
+        width: auto;
+        margin-left: 5px;
+        margin-right: 20px;
+    }
+    
+
+
+</style>
